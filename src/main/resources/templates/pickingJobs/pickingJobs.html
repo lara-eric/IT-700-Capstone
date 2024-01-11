@@ -1,0 +1,54 @@
+<!-- Header -->
+<!-- Header fragment -->
+<div th:insert="~{fragments/header :: header}"></div>
+<!-- Navbar fragment -->
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+
+<div class="container">
+    <!-- ALERTS TO PROVIDE USER FEEDBACK ON NOT FOUND PO -->
+    <div th:if="${param.notFound}">
+        <div class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+            Picking Job not found
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    <!-- ALERTS TO PROVIDE USER FEEDBACK ON SUCCESSFUL ADDED PO -->
+    <div th:if="${param.fulfilled}">
+        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+            Picking Job fulfilled
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    <!-- Page headers -->
+    <h1 class="my-3" th:text="|Picking Jobs|">Picking JObs</h1>
+    <!-- Customer list as table -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Picking Job</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Details</th>
+                <th scope="col">Fulfill</th>
+                <!-- <th scope="col"></th> -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="pickingJob : ${pickingJobs}">
+                <th scope="row" th:text="|${#temporals.monthNameShort(pickingJob.date)} ${#temporals.format(pickingJob.date, ' dd, yyyy')}|">1</th>
+                <td th:text="${pickingJob.id}">Mark</td>
+                <td th:text="${pickingJob.salesOrder.customer.name}">Otto</td>
+                <td><a th:href="@{/picking-jobs/{pickingJobId}(pickingJobId=${pickingJob.id})}" class="btn btn-outline-secondary">Details</a></td>
+                <td><a th:href="@{/picking-jobs/fulfill-job/{pickingJobId}(pickingJobId=${pickingJob.id})}" class="btn btn-outline-primary">Fulfill</a></td>
+                <!-- <td>
+                    <form th:action="@{/picking-job/{pickingJobId}(pickingJobId=${pickingJob.id})}" method="post">
+                        <button type="submit" class="btn btn-dark" name="delete">Delete</button>
+                    </form>
+                </td> -->
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Header fragment -->
+<div th:insert="~{fragments/footer :: footer}"></div>

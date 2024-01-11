@@ -1,0 +1,88 @@
+<!-- Header -->
+<!-- Header fragment -->
+<div th:insert="~{fragments/header :: header}"></div>
+<!-- Navbar fragment -->
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+
+<div class="container">
+    <!-- ALERTS TO PROVIDE USER FEEDBACK ON UNSUCCESSFUL SO DELETION -->
+    <div th:if="${param.failedToDelete}">
+        <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+            Cannot delete a shipped sales order!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    <!-- ALERTS TO PROVIDE USER FEEDBACK ON NOT FOUND SO -->
+    <div th:if="${param.notFound}">
+        <div class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+            Sales Order not found
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    <!-- ALERTS TO PROVIDE USER FEEDBACK ON SUCCESSFUL ADDED SO -->
+    <div th:if="${param.added}">
+        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+            Sales Order added to the database
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    <!-- ALERTS TO PROVIDE USER FEEDBACK ON SUCCESSFUL UPDATE SO -->
+    <div th:if="${param.updated}">
+        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+            Sales Order has been updated
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    <!-- ALERTS TO PROVIDE USER FEEDBACK ON SUCCESSFUL SO DELETION -->
+    <div th:if="${param.salesOrderDeleted}">
+        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+            Sales Order Deleted
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    <!-- ALERTS TO PROVIDE USER FEEDBACK ON FAILED UPDATE -->
+    <div th:if="${param.cannotBeUpdated}">
+        <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+            Shipped Order Cannot be Updated
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    <!-- Page headers -->
+    <h1 class="my-3" th:text="|Sales Orders|">Customer List</h1>
+    <!-- Customer list as table -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Sales Order</th>
+                <th scope="col">Total</th>
+                <th scope="col">Details</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="salesOrder : ${salesOrders}">
+                <th scope="row" th:text="|${#temporals.monthNameShort(salesOrder.date)} ${#temporals.format(salesOrder.date, ' dd, yyyy')}|">1</th>
+                <td th:text="${salesOrder.salesOrder}">Mark</td>
+                <td th:text="${#numbers.formatCurrency(salesOrder.total)}">Otto</td>
+                <td><a th:href="@{/sales-orders/{orderId}(orderId=${salesOrder.id})}" class="btn btn-outline-secondary">Details</a></td>
+                <div class="update" th:if="${salesOrder.status == 0}">
+                    <td><a th:href="@{|/sales-orders/${salesOrder.id}/update|}" class="btn btn-outline-success">Edit</a></td>
+                </div>
+                <div class="update" th:unless="${salesOrder.status == 0}">
+                    <td></td>
+                </div>
+                <td>
+                    <form th:action="@{/sales-orders/{orderId}(orderId=${salesOrder.id})}" method="post">
+                        <button type="submit" class="btn btn-dark" name="delete">Delete</button>
+                    </form>
+                </td>
+                <!-- TODO: Adds button to delete sales order (first: implement sales order CRUD controll) -->
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Header fragment -->
+<div th:insert="~{fragments/footer :: footer}"></div>

@@ -1,0 +1,67 @@
+<!-- Header -->
+<!-- Header fragment -->
+<div th:insert="~{fragments/header :: header}"></div>
+<!-- Navbar fragment -->
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+
+<div class="container">
+    <!-- ALERTS TO PROVIDE USER FEEDBACK ON SUCCESSFUL vendor DELETION -->
+    <div th:if="${param.deleted}">
+        <div class="alert alert-success alert-dismissible fade show my-3" role="alert">
+            vendor has been deleted
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+     <!-- ALERTS TO PROVIDE USER FEEDBACK ON UNSUCCESSFUL vendor DELETION -->
+     <div th:if="${param.failedToDelete}">
+        <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+            Cannot delete billed vendor
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    <!-- ALERTS TO PROVIDE USER FEEDBACK ON vendor NOT FOUND -->
+    <div th:if="${param.notFound}">
+        <div class="alert alert-info alert-dismissible fade show my-3" role="alert">
+            vendor not found
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    <!-- Page headers -->
+    <h1 class="my-3">Vendor List</h1>
+    <!-- vendor list as table -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Street</th>
+                <th scope="col">City</th>
+                <th scope="col">State</th>
+                <th scope="col">zipcode</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="vendor : ${vendors}">
+                <th scope="row" th:text="${vendor.id}">1</th>
+                <td th:text="${vendor.name}">Mark</td>
+                <td th:text="${vendor.street}">Otto</td>
+                <td th:text="${vendor.city}">@mdo</td>
+                <td th:text="${vendor.state}">@mdo</td>
+                <td th:text="${vendor.zipcode}">@mdo</td>
+                <td><a th:href="@{|/vendors/${vendor.id}|}" class="btn btn-outline-secondary col-12">Details</a></td>
+                <td><a th:href="@{|/vendors/${vendor.id}/update|}" class="btn btn-outline-success col-12">Edit</a></td>
+                <td>
+                    <form th:action="@{/vendors/{id}(id=${vendor.id})}" method="POST">
+                        <button type="submit" class="btn btn-dark col-12" name="delete">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Footer fragment -->
+<div th:insert="~{fragments/footer :: footer}"></div>

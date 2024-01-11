@@ -1,0 +1,107 @@
+<!-- Header -->
+<!-- Header fragment -->
+<div th:insert="~{fragments/header :: header}"></div>
+<!-- Navbar fragment -->
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+
+<div class="container">
+    <div class="container">
+        <div class="container mx-auto col-md-6" id="sale-order-form">
+            <div id="header">
+                <h1 class="mt-3" th:text="|Update Purchase Order: ${persistedOrder.id}|">Update Purchase Order</h1>
+            </div>
+
+            <div id="updatePurchaseOrderForm">
+                <!-- SALE ORDER FORM -->
+                <form action="#" th:action="@{|/purchase-orders/${persistedOrder.id}/update|}" th:object="${purchaseOrder}"
+                    method="post" class="row g-3 needs-validation" novalidate>
+                    <!-- FROM/TO INPUTS FIELDS-->
+                    <div class="col-md-6">
+                        <label for="vendor" class="form-label">Vendor</label>
+                        <select class="form-select" th:field="*{vendor.id}" aria-label="Default select example"
+                            th:errorclass="fieldError" id="vendor" required name="vendor">
+                            <option value="" selected th:text="|${purchaseOrder.vendor.id} - ${purchaseOrder.vendor.name}|" th:value="${purchaseOrder.vendor.id}">Choose...</option>
+                            <option th:each="vendor: ${vendors}" th:text="|${vendor.id} - ${vendor.name}|"
+                                th:value="${vendor.id}">Two
+                            </option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select the vendor
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="date" class="form-label">Date</label>
+                        <input class="form-control" type="text" id="date" th:field="*{date}" disabled readonly name="date">
+                    </div>
+
+                    <!-- SALES ORDER LINES -->
+                    <!-- <div th:each="purchaseOrderLine: ${newpurchaseOrderDto.purchaseOrderLines}"> -->
+                    <div th:each="purchaseOrderLine, polStat: *{purchaseOrderLines}">
+                        <div class="input-group mb-3">
+                            <input type="number" min="1" step="1" th:field="*{purchaseOrderLines[__${polStat.index}__].qty}"
+                                class="form-control" id="qty" th:value="*{purchaseOrderLines[__${polStat.index}__].qty}">
+                            <select class="form-select" th:field="*{purchaseOrderLines[__${polStat.index}__].item.id}"
+                                aria-label="Default select example" id="item" required>
+                                <div class="purchaseOrderLine" th:if="*{purchaseOrderLines[__${polStat.index}__].item.sku == null}">
+                                    <option th:value="" th:text="Choose..." selected disable hidden>Choose...</option>
+                                </div>     
+                                <div class="purchaseOrderLine" th:unless="*{purchaseOrderLines[__${polStat.index}__].item.sku == null}">
+                                    <option value="" selected th:text="|*{purchaseOrderLines[__${polStat.index}__].item.sku} - *{purchaseOrderLines[__${polStat.index}__].item.description}|" th:value="*{purchaseOrderLines[__${polStat.index}__].item.id}">Choose...</option>
+                                </div>                           
+                                <option th:each="item: ${items}"
+                                    th:text="|${item.sku} - ${item.description}|" th:value="${item.id}">Two
+                                </option>
+                            </select>
+                                <button type="submit" name="removeRow" th:value="${polStat.index}" class="btn btn-danger">Remove</button>
+                        </div>
+                    </div>
+                    <!-- ADD ORDER LINE BUTTON -->
+                    <div class="col-12">
+                        <button type="submit" name="addRow" value="yes" class="btn btn-primary">Add Order Line</button>
+                    </div>
+                    <!-- </div> -->
+                    <!-- SEARCH BUTTON -->
+                    <div class="col-12">
+                        <div class="d-grid mx-auto">
+                            <button type="submit" name="save" th:value="|yes|" class="btn btn-dark col-12">Update Purchase
+                                Order</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    //JAVASCRIPT SNIPPET TO PROVIDES DATA VALIDATION ON FRONT END WHEN FORM IS SUBMITTED
+    //IT WILL SUPPLY A MESSAGE BELOW THE BLANK INPUT FIELD
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        // it checks every input field that its class attribute contains "needs-validation"
+
+        //TODO: MOVE JS TO SEPARTE FILE
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
+
+
+<!-- Footer fragment -->
+<div th:insert="~{fragments/footer :: footer}"></div>
+
+
