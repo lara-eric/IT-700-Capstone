@@ -287,7 +287,7 @@ public class PurchaseOrderController {
      *         list page if the purchase order is saved successfully
      */
     @PostMapping(value = UPDATE_PURCHASE_ORDER_ID_PATH, params = "save")
-    public String updatepurchaseOrder(@PathVariable("orderId") Long id, @ModelAttribute PurchaseOrder purchaseOrder,
+    public String updatePurchaseOrder(@PathVariable("orderId") Long id, @ModelAttribute PurchaseOrder purchaseOrder,
             HttpServletRequest request, Model model) {
         try {
             purchaseOrderService.updateById(id, purchaseOrder);
@@ -318,7 +318,7 @@ public class PurchaseOrderController {
                 // Deletes the purchase order from the database.
                 purchaseOrderService.delete(order.get());
                 // Redirects to the purchase order list page.
-                return "redirect:/purchase-orders";
+                return "redirect:/purchase-orders?purchaseOrderDeleted";
             } else {
                 // Redirects to the purchase order list page with a failed to delete error
                 // message.
