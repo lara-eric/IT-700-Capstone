@@ -45,7 +45,7 @@ public class PurchaseOrderController {
      * @param itemService the itemService to use
      */
     public PurchaseOrderController(PurchaseOrderService purchaseOrderService, PurchaseOrderLineService purchaseOrderLineService,
-            VendorService vendorService, ItemService itemService) {
+                                   VendorService vendorService, ItemService itemService) {
         this.purchaseOrderService = purchaseOrderService;
         this.purchaseOrderLineService = purchaseOrderLineService;
         this.vendorService = vendorService;
@@ -79,7 +79,7 @@ public class PurchaseOrderController {
      */
     @PostMapping(value = NEW_PURCHASE_ORDER_PATH, params = "addRow")
     public String addPurchaseOrderLine(@ModelAttribute PurchaseOrder purchaseOrder,
-            HttpServletRequest request, Model model) {
+                                       HttpServletRequest request, Model model) {
         // Adding a new purchase order line to the current purchase order
         purchaseOrder.getPurchaseOrderLines().add(new PurchaseOrderLine());
 
@@ -99,7 +99,7 @@ public class PurchaseOrderController {
      */
     @PostMapping(value = NEW_PURCHASE_ORDER_PATH, params = "removeRow")
     public String removePurchaseOrderLine(@ModelAttribute PurchaseOrder purchaseOrder,
-            HttpServletRequest request, Model model) {
+                                          HttpServletRequest request, Model model) {
         // newpurchaseOrderDto.addOrderLine();
         final int rowId = Integer.valueOf(request.getParameter("removeRow"));
         // Remove the purchase order line based on the row ID
@@ -121,7 +121,7 @@ public class PurchaseOrderController {
      */
     @PostMapping(value = NEW_PURCHASE_ORDER_PATH, params = "save")
     public String savePurchaseOrder(@ModelAttribute PurchaseOrder purchaseOrder,
-            HttpServletRequest request, Model model) {
+                                    HttpServletRequest request, Model model) {
         // Save the purchase order to the database
         purchaseOrderService.save(purchaseOrder);
         // Redirects to the purchase order list page.
@@ -146,7 +146,7 @@ public class PurchaseOrderController {
         return "purchaseOrders/purchaseOrders";
     }
 
-     /**
+    /**
      * GET /sales-order/pending
      *
      * Gets all sales orders.
@@ -191,7 +191,7 @@ public class PurchaseOrderController {
         }
     }
 
-     /**
+    /**
      * GET /purchase-order/{orderId}/update
      *
      * Gets the purchase order update form for the given purchase order ID.
@@ -231,7 +231,7 @@ public class PurchaseOrderController {
      */
     @PostMapping(value = UPDATE_PURCHASE_ORDER_ID_PATH, params = "addRow")
     public String addPurchaseOrderLineToUpdateOrderForm(@ModelAttribute PurchaseOrder purchaseOrder,
-            @PathVariable("orderId") Long id, HttpServletRequest request, Model model) {
+                                                        @PathVariable("orderId") Long id, HttpServletRequest request, Model model) {
         // Adding new purchase order line to purchase order
         PurchaseOrder order = purchaseOrderService.findById(id).get();
         purchaseOrder.getPurchaseOrderLines().add(new PurchaseOrderLine());
@@ -255,7 +255,7 @@ public class PurchaseOrderController {
      */
     @PostMapping(value = UPDATE_PURCHASE_ORDER_ID_PATH, params = "removeRow")
     public String removePurchaseOrderLineFromUpdateOrderForm(@ModelAttribute PurchaseOrder purchaseOrder,
-            @PathVariable("orderId") Long id, HttpServletRequest request, Model model) {
+                                                             @PathVariable("orderId") Long id, HttpServletRequest request, Model model) {
         PurchaseOrder order = purchaseOrderService.findById(id).get();
         // Checks if other was already received
         if (purchaseOrder.getStatus() == PoStatus.RECEIVED) {
@@ -272,7 +272,7 @@ public class PurchaseOrderController {
         model.addAttribute("persistedOrder", order);
         model.addAttribute("vendors", vendorService.findAll());
         model.addAttribute("items", itemService.findAll());
-        return "purchaseOrders/updatepurchaseOrderForm";
+        return "purchaseOrders/updatePurchaseOrderForm";
     }
 
     /**
@@ -287,8 +287,8 @@ public class PurchaseOrderController {
      *         list page if the purchase order is saved successfully
      */
     @PostMapping(value = UPDATE_PURCHASE_ORDER_ID_PATH, params = "save")
-    public String updatePurchaseOrder(@PathVariable("orderId") Long id, @ModelAttribute PurchaseOrder purchaseOrder,
-            HttpServletRequest request, Model model) {
+    public String updatepurchaseOrder(@PathVariable("orderId") Long id, @ModelAttribute PurchaseOrder purchaseOrder,
+                                      HttpServletRequest request, Model model) {
         try {
             purchaseOrderService.updateById(id, purchaseOrder);
         } catch (PurchaseOrderNotFoundException e) {

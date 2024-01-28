@@ -51,13 +51,12 @@ public class GoodsReceiptNoteController {
      * @param warehouseSectionService the WarehouseSectionService dependency
      */
     public GoodsReceiptNoteController(GoodsReceiptNoteService goodsReceiptNoteService,
-            PurchaseOrderService purchaseOrderService, ItemService itemService,
-            WarehouseSectionService warehouseSectionService) {
+                                      PurchaseOrderService purchaseOrderService, ItemService itemService,
+                                      WarehouseSectionService warehouseSectionService) {
         this.goodsReceiptNoteService = goodsReceiptNoteService;
         this.purchaseOrderService = purchaseOrderService;
     }
 
-    //TODO: ADD FUNCTIONALITY TO MOVE STOCKS AROUND THE WAREHOUSE (PUT AWAY PROCESS)
 
     @GetMapping(value = PENDING_GOODS_RECEIPT_NOTE_PATH)
     public String pendingGoodsReceiptNotes(Model model) {
@@ -83,7 +82,7 @@ public class GoodsReceiptNoteController {
 
     @GetMapping(value = GOODS_RECEIPT_NOTE_ID_PATH)
     public String getGoodsReceiptNoteDetails(@PathVariable(value = "goodsReceiptNoteId", required = false) Long id,
-            Model model) {
+                                             Model model) {
         // Retrieves the goods receipt note with the specified ID from the database.
         Optional<GoodsReceiptNote> goodsReceiptNote = goodsReceiptNoteService.findById(id);
         // If the goods receipt note is found, updates the model with the goods receipt
@@ -114,7 +113,7 @@ public class GoodsReceiptNoteController {
 
     @GetMapping(value = START_RECEIVING_PO_PATH)
     public String startReceivingShipment(@PathVariable(value = "purchaseOrderId", required = true) Long id,
-            Model model) {
+                                         Model model) {
         // Retrieves the goods receipt note with the specified ID from the database.
         Optional<PurchaseOrder> purchaseOrder = purchaseOrderService.findById(id);
         if (purchaseOrder.isPresent() && purchaseOrder.get().getStatus() != PoStatus.RECEIVED) {
@@ -137,14 +136,14 @@ public class GoodsReceiptNoteController {
         } else if (purchaseOrder.isPresent() && purchaseOrder.get().getStatus() == PoStatus.RECEIVED){
             return "redirect:/goods-receipt-notes/search-purchase-order?alreadyReceived";
         } else {
-             return "redirect:/goods-receipt-notes/search-purchase-order?notFound";
+            return "redirect:/goods-receipt-notes/search-purchase-order?notFound";
         }
     }
 
     @PostMapping(value = START_RECEIVING_PO_PATH)
     public String finishReceivingShipment(@PathVariable(value = "purchaseOrderId", required = true) Long id,
-            @ModelAttribute GoodsReceiptNoteDto goodsReceiptNoteDto,
-            Model model) {
+                                          @ModelAttribute GoodsReceiptNoteDto goodsReceiptNoteDto,
+                                          Model model) {
         // Retrieves the goods receipt note with the specified ID from the database.
         Optional<PurchaseOrder> purchaseOrder = purchaseOrderService.findById(id);
         if (purchaseOrder.isPresent() && purchaseOrder.get().getStatus() == PoStatus.IN_TRANSIT) {

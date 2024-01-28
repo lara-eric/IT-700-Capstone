@@ -1,14 +1,19 @@
 package com.example.warehouseManagement.Services;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.example.warehouseManagement.Domains.PickingJob;
+import com.example.warehouseManagement.Domains.Stock;
+import com.example.warehouseManagement.Domains.WarehouseSection;
+import com.example.warehouseManagement.Domains.DTOs.PutAwayTaskDto;
+import com.example.warehouseManagement.Domains.DTOs.PutAwayTasksDtoWrapper;
 import com.example.warehouseManagement.Domains.DTOs.StockLevelReportItemDto;
 import com.example.warehouseManagement.Domains.DTOs.TopFiveMoversDto;
 
 public interface StockService {
     /**
-     * Get a list of the top five movers 
+     * Get a list of the top five movers
      */
     public List<TopFiveMoversDto> getTopFiveMovers();
     /**
@@ -21,4 +26,16 @@ public interface StockService {
     public List<StockLevelReportItemDto> findStockReportsItemsByVendorId(Long vendorId);
 
     public void pickStock(PickingJob pickingJob);
+
+    public List<Stock> findStocksOnFloor();
+
+    public List<Stock> findStocksByWareHouseSectionNumber(String warehouseSectionNumber);
+
+    public List<PutAwayTaskDto> generatePutAwayTaskDtoByWarehouseSection(WarehouseSection warehouseSection);
+
+    public Optional<Stock> findById(Long id);
+
+    public Stock save(Stock stock);
+
+    public void putAwayStocks(PutAwayTasksDtoWrapper wrapper, List<Stock> stocks);
 }

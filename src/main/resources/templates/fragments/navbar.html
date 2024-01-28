@@ -1,114 +1,125 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary" th:fragment="navbar">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <!-- Dropdown Tab -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Customers
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/customers/new-customer">New Customer</a></li>
-              <li><a class="dropdown-item" href="/customers">Customers</a></li>
-            </ul>
-          </li>
-          <!-- Dropdown Tab End -->
-          <!-- Dropdown Tab -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Vendors
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/vendors/new-vendor">New Vendor</a></li>
-              <li><a class="dropdown-item" href="/vendors">Vendors</a></li>
-            </ul>
-          </li>
-          <!-- Report Tab -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Reports
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/reports/sales-order-by-customer">Sales Order By Customer</a></li>
-              <li><a class="dropdown-item" href="/reports/sales-order-details">Sales Order By Number</a></li>
-              <li><a class="dropdown-item" href="/reports/pending-sales-orders-by-year-month">Pending Sales Order By Year and Month</a></li>
-              <li><a class="dropdown-item" href="/reports/stock-level-report-by-vendor">Stock Level Report By Vendor</a></li>
-              <li><a class="dropdown-item" href="/reports/back-order-report-by-year">Back Order Report By Year</a></li>
-            </ul>
-          </li>
-          <!-- END Report Tab -->
-          <!-- Sales Order Tab -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Sales Orders
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/sales-orders/new-sales-order">New Sales Order</a></li>
-              <li><a class="dropdown-item" href="/sales-orders">Sales Orders</a></li>
-              <li><a class="dropdown-item" href="/sales-orders/pending">Pending Sales Orders</a></li>
-            </ul>
-          </li>
-          <!-- END Sales Order Tab -->
-          <!-- Purchase Order Tab -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Purchase Orders
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/purchase-orders/new-purchase-order">New Purchase Order</a></li>
-              <li><a class="dropdown-item" href="/purchase-orders">Purchase Orders</a></li>
-              <li><a class="dropdown-item" href="/purchase-orders/pending">Pending Purchase Orders</a></li>
-            </ul>
-          </li>
-          <!-- END Purchase Order Tab -->
-          <!-- Goods Receipt Note Tab -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Goods Receipt Notes
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/goods-receipt-notes/search-purchase-order">Search Purchase Order</a></li>
-              <li><a class="dropdown-item" href="/goods-receipt-notes/pending-goods-receipt-notes">Pending Goods Receipt Notes</a></li>
-              <li><a class="dropdown-item" href="/goods-receipt-notes/fulfilled-goods-receipt-notes">Fulfilled Goods Receipt Notes</a></li>
-            </ul>
-          </li>
-          <!-- END Goods Receipt Notes-->
-          <!-- Picking Job Tab -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <!-- Dropdown Tab -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Customers
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/customers/new-customer">New Customer</a></li>
+            <li><a class="dropdown-item" href="/customers">Customers</a></li>
+          </ul>
+        </li>
+        <!-- Dropdown Tab End -->
+        <!-- Dropdown Tab -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Vendors
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/vendors/new-vendor">New Vendor</a></li>
+            <li><a class="dropdown-item" href="/vendors">Vendors</a></li>
+          </ul>
+        </li>
+        <!-- Report Tab -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Reports
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/reports/sales-order-by-customer">Sales Order By Customer</a></li>
+            <li><a class="dropdown-item" href="/reports/sales-order-details">Sales Order By Number</a></li>
+            <li><a class="dropdown-item" href="/reports/pending-sales-orders-by-year-month">Pending Sales Order By Year and Month</a></li>
+            <li><a class="dropdown-item" href="/reports/stock-level-report-by-vendor">Stock Level Report By Vendor</a></li>
+            <li><a class="dropdown-item" href="/reports/back-order-report-by-year">Back Order Report By Year</a></li>
+          </ul>
+        </li>
+        <!-- END Report Tab -->
+        <!-- Sales Order Tab -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Sales Orders
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/sales-orders/new-sales-order">New Sales Order</a></li>
+            <li><a class="dropdown-item" href="/sales-orders">Sales Orders</a></li>
+            <li><a class="dropdown-item" href="/sales-orders/pending">Pending Sales Orders</a></li>
+          </ul>
+        </li>
+        <!-- END Sales Order Tab -->
+        <!-- Purchase Order Tab -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Purchase Orders
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/purchase-orders/new-purchase-order">New Purchase Order</a></li>
+            <li><a class="dropdown-item" href="/purchase-orders">Purchase Orders</a></li>
+            <li><a class="dropdown-item" href="/purchase-orders/pending">Pending Purchase Orders</a></li>
+          </ul>
+        </li>
+        <!-- END Purchase Order Tab -->
+        <!-- Goods Receipt Note Tab -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Goods Receipt Notes
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/goods-receipt-notes/search-purchase-order">Search Purchase Order</a></li>
+            <li><a class="dropdown-item" href="/goods-receipt-notes/pending-goods-receipt-notes">Pending Goods Receipt Notes</a></li>
+            <li><a class="dropdown-item" href="/goods-receipt-notes/fulfilled-goods-receipt-notes">Fulfilled Goods Receipt Notes</a></li>
+          </ul>
+        </li>
+        <!-- END Goods Receipt Notes-->
+        <!-- Put Away Tasks Tab -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Put Away Tasks
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/put-aways/floor">Put Away Tasks On Floor</a></li>
+            <li><a class="dropdown-item" href="/put-aways/search-warehouse-section">Search Put Away Tasks</a></li>
+          </ul>
+        </li>
+        <!-- END Goods Receipt Notes-->
+        <!-- Picking Job Tab -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Picking Jobs
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/picking-jobs">Picking Jobs</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-            </ul>
-          </li>
-           <!-- Dropdown Tab -->
-           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Items
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/items/new-item">New Item</a></li>
-              <li><a class="dropdown-item" href="/items">Items</a></li>
-            </ul>
-          </li>
-          <!-- END Picking Job Tab -->
-        </ul>
-        <!-- <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form> -->
-      </div>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/picking-jobs">Picking Jobs</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+          </ul>
+        </li>
+        <!-- Dropdown Tab -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Items
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/items/new-item">New Item</a></li>
+            <li><a class="dropdown-item" href="/items">Items</a></li>
+          </ul>
+        </li>
+        <!-- END Picking Job Tab -->
+      </ul>
+      <!-- <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form> -->
     </div>
-  </nav>
+  </div>
+</nav>

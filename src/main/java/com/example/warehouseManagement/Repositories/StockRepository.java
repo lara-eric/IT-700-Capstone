@@ -1,6 +1,7 @@
 package com.example.warehouseManagement.Repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -33,8 +34,8 @@ public interface StockRepository extends CrudRepository<Stock, Long> {
    * ON stock.item_id = item.id
    * GROUP BY item.id
    * ORDER by "averageWeeklySales" DESC
-   * 
-   * 
+   *
+   *
    * SELECT TOP 5
    * item.description as "description",
    * SUM(sales_order_line.qty) as "qty sold",
@@ -46,7 +47,7 @@ public interface StockRepository extends CrudRepository<Stock, Long> {
    * INNER JOIN item ON sales_order_line.item_id = item.id
    * GROUP BY item.id
    * ORDER BY "qty sold" DESC
-   * 
+   *
    * SELECT TOP 5
    * item.description as "description",
    * SUM(sales_order_line.qty) / EXTRACT(WEEK FROM CURRENT_DATE()) as "average
@@ -62,9 +63,9 @@ public interface StockRepository extends CrudRepository<Stock, Long> {
    * INNER JOIN item ON sales_order_line.item_id = item.id
    * GROUP BY item.id
    * ORDER BY "average week sales" DESC
-   * 
-   * 
-   * 
+   *
+   *
+   *
    */
   @Modifying
   @Transactional
@@ -90,6 +91,10 @@ public interface StockRepository extends CrudRepository<Stock, Long> {
       ORDER BY \"averageWeekSales\" DESC, \"qtyOnHand\" DESC, \"sku\" DESC
             """, nativeQuery = true)
   public List<TopFiveMoversDto> getTopFiveMovers();
+
+
+  public Optional<Stock> findById(Long id);
+
   // @Modifying
   // @Transactional
   // @Query(value = """
@@ -349,47 +354,95 @@ public interface StockRepository extends CrudRepository<Stock, Long> {
    * GROUP BY item.id
    */
   @Query(value = """
-      SELECT TOP 1 * FROM STOCK s\s
-      WHERE s.item_id = :itemId AND s.warehouse_section_id = :warehouseSectionId
-      ORDER by s.qty_on_hand DESC\
+      SELECT 
+        TOP 1 * 
+      FROM 
+        STOCK s
+      WHERE 
+        s.item_id = :itemId 
+        AND s.warehouse_section_id = :warehouseSectionId
+      ORDER by 
+        s.qty_on_hand DESC
       """, nativeQuery = true)
   public Stock findByWarehouseSectionAndItemId(@Param("warehouseSectionId") Long warehouseSectionId,
-      @Param("itemId") Long itemId);
+                                               @Param("itemId") Long itemId);
 
   @Transactional
   @Modifying
   @Query(value = """
-      UPDATE STOCK s\s
-      SET s.qty_on_hand = :newQtyOnHand\s
-      WHERE s.warehouse_section_id = :warehouseSectionId AND s.item_id = :itemId\
+      UPDATE 
+        STOCK s
+      SET 
+        s.qty_on_hand = :newQtyOnHand
+      WHERE 
+        s.warehouse_section_id = :warehouseSectionId 
+        AND s.item_id = :itemId
       """, nativeQuery = true)
   public void updateStockByWarehouseSectionAndItemId(@Param("newQtyOnHand") int newQtyOnHand,
-      @Param("warehouseSectionId") Long warehouseSectionId, @Param("itemId") Long itemId);
+                                                     @Param("warehouseSectionId") Long warehouseSectionId, @Param("itemId") Long itemId);
 
   @Transactional
   @Modifying
   @Query(value = """
-      DELETE STOCK s\s
-      WHERE s.warehouse_section_id = :warehouseSectionId AND s.item_id = :itemId\
+      DELETE 
+        STOCK s
+      WHERE 
+        s.warehouse_section_id = :warehouseSectionId 
+        AND s.item_id = :itemId
       """, nativeQuery = true)
   public void deleteStockByWarehouseSectionAndItemId(@Param("warehouseSectionId") Long warehouseSectionId,
-      @Param("itemId") Long itemId);
+                                                     @Param("itemId") Long itemId);
+
+
+  @Query(value = """
+      SELECT 
+        s.id,
+        s.warehouse_section_id,
+        s.item_id,
+        s.qty_on_hand 
+      FROM 
+        STOCK s
+      INNER JOIN warehouse_section ws
+        ON ws.id = s.warehouse_section_id
+      WHERE
+        ws.section_number = '00-00-0-0'
+      ORDER by 
+        s.qty_on_hand DESC
+      """, nativeQuery = true)
+  public List<Stock> findStockOnFloor();
+
+  @Query(value = """
+      SELECT 
+        s.id,
+        s.warehouse_section_id,
+        s.item_id,
+        s.qty_on_hand 
+      FROM 
+        STOCK s
+      INNER JOIN warehouse_section ws
+        ON ws.id = s.warehouse_section_id
+      WHERE
+        ws.section_number = :warehouseSectionNumber
+      ORDER by 
+        s.qty_on_hand DESC
+      """, nativeQuery = true)
+  public List<Stock> findStocksByWarehouseSectionNumber(@Param("warehouseSectionNumber") String warehouseSectionNumber);
 
   /**
-   * 
+   *
    * DELETE STOCK s
    * WHERE s.item_id = 10 AND s.warehouse_section_id = 734
-   * 
+   *
    * SELECT * FROM STOCK s
    * WHERE s.item_id = 10 AND s.warehouse_section_id = 734
-   * 
+   *
    * UPDATE STOCK s
    * SET s.qty_on_hand = 1
    * WHERE s.warehouse_section_id 734 AND s.item_id = 10;
-   * 
-   * 
-   * 
-   * 
+   *
+   *
+   *
+   *
    */
 
   /**
@@ -441,8 +494,8 @@ public interface StockRepository extends CrudRepository<Stock, Long> {
    * INNER JOIN item ON s.item_id = item.id
    * WHERE item.vendor_id = 3
    * GROUP BY item.id
-   * 
-   * 
+   *
+   *
    * SQL STATEMENT FOR STOCK LEVELS WITH IN TRANSIT AMOUNT AND AVERAGE WEEK SALES
    * SELECT
    * item.vendor_id AS "Vendor",
@@ -472,19 +525,19 @@ public interface StockRepository extends CrudRepository<Stock, Long> {
    * INNER JOIN item ON s.item_id = item.id
    * WHERE item.vendor_id = 1
    * GROUP BY item.id
-   * 
-   * 
-   * 
-   * 
-   * 
+   *
+   *
+   *
+   *
+   *
    */
 
 }
 
 /*
- * 
+ *
  * --TOP 5 MOVERS AND WEEKS OF INVENTORY
- * 
+ *
  * SET @weeks = EXTRACT(WEEK FROM CURRENT_DATE());
  * SELECT TOP 5
  * item.sku AS "Sku",
@@ -502,10 +555,10 @@ public interface StockRepository extends CrudRepository<Stock, Long> {
  * ON sales_order_line.sales_order_id = sales_order.id
  * GROUP BY item.id
  * ORDER by "Average Weekly Sales" DESC
- * 
- * 
- * 
- * 
+ *
+ *
+ *
+ *
  * --STOCK LEVELS REPORT SQL QUERY
  * SET @weeks = EXTRACT(WEEK FROM CURRENT_DATE());
  * SELECT
@@ -526,13 +579,13 @@ public interface StockRepository extends CrudRepository<Stock, Long> {
  * INNER JOIN sales_order
  * ON sales_order_line.sales_order_id = sales_order.id
  * GROUP BY item.id
- * 
- * 
+ *
+ *
  */
 
 /**
  * STOCK LEVEL REPORT -- FINAL
- * 
+ *
  * SELECT
  * item.vendor_id AS "vendor",
  * item.sku as "sku",

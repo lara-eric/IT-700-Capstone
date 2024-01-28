@@ -29,11 +29,11 @@ public class GoodsReceiptNoteImpl implements GoodsReceiptNoteService {
     private final GoodsReceiptNoteLineRepository goodsReceiptNoteLineRepository;
     private final StockRepository stockRepository;
     private final WarehouseSectionRepository warehouseSectionRepository;
-    
-    
+
+
     public GoodsReceiptNoteImpl(GoodsReceiptNoteRepository goodsReceiptNoteRepository,
-            GoodsReceiptNoteLineRepository goodsReceiptNoteLineRepository,
-            StockRepository stockRepository, WarehouseSectionRepository warehouseSectionRepository) { 
+                                GoodsReceiptNoteLineRepository goodsReceiptNoteLineRepository,
+                                StockRepository stockRepository, WarehouseSectionRepository warehouseSectionRepository) {
         this.goodsReceiptNoteRepository = goodsReceiptNoteRepository;
         this.goodsReceiptNoteLineRepository = goodsReceiptNoteLineRepository;
         this.stockRepository = stockRepository;
@@ -46,7 +46,7 @@ public class GoodsReceiptNoteImpl implements GoodsReceiptNoteService {
     @Override
     public Optional<GoodsReceiptNote> findById(Long id) {
         return goodsReceiptNoteRepository.findById(id);
-        
+
     }
 
     /**
@@ -107,7 +107,10 @@ public class GoodsReceiptNoteImpl implements GoodsReceiptNoteService {
             String notes = goodsReceiptNoteLineDto.getNotes();
             Item item = goodsReceiptNoteLine.getItem();
             if (qty == 0) continue;
+            // Records notes made on grn line
             goodsReceiptNoteLine.setNotes(notes);
+            // Records the qty received in the goods receipt note persisted in db
+            goodsReceiptNoteLine.setQty(qty);
             Stock stock = Stock.builder().qtyOnHand(qty).item(item).warehouseSection(floor.get()).build();
             stockRepository.save(stock);
             goodsReceiptNoteLineRepository.save(goodsReceiptNoteLine);
@@ -127,7 +130,7 @@ public class GoodsReceiptNoteImpl implements GoodsReceiptNoteService {
     public List<GoodsReceiptNote> findAllPending() {
         return goodsReceiptNoteRepository.findAllPending();
     }
-    
+
     @Override
     public List<GoodsReceiptNote> findAllFulfilled() {
         return goodsReceiptNoteRepository.findAllFulfilled();
@@ -136,30 +139,30 @@ public class GoodsReceiptNoteImpl implements GoodsReceiptNoteService {
     @Override
     public GoodsReceiptNote create(PurchaseOrder purchaseOrder) {
         GoodsReceiptNote goodsReceiptNote = GoodsReceiptNote.builder()
-                    .purchaseOrder(purchaseOrder).build();
-            // Create and persist a new Good receipt note
-            GoodsReceiptNote savedGoodsReceiptNote = goodsReceiptNoteRepository.save(goodsReceiptNote);
-            // Create and persist the goods receipt note lines from po
-            for (PurchaseOrderLine purchaseOrderLine : purchaseOrder.getPurchaseOrderLines()) {
-                // where each po line items will be stored
-                GoodsReceiptNoteLine newGoodsReceiptNoteLine = GoodsReceiptNoteLine.builder()
-                        .goodsReceiptNote(savedGoodsReceiptNote)
-                        .item(purchaseOrderLine.getItem())
-                        .qty(0).build();
-                GoodsReceiptNoteLine saveGoodsReceiptNoteLine = goodsReceiptNoteLineRepository.save(newGoodsReceiptNoteLine);
-                goodsReceiptNote.getGoodsReceiptNoteLines().add(saveGoodsReceiptNoteLine);
-            }
+                .purchaseOrder(purchaseOrder).build();
+        // Create and persist a new Good receipt note
+        GoodsReceiptNote savedGoodsReceiptNote = goodsReceiptNoteRepository.save(goodsReceiptNote);
+        // Create and persist the goods receipt note lines from po
+        for (PurchaseOrderLine purchaseOrderLine : purchaseOrder.getPurchaseOrderLines()) {
+            // where each po line items will be stored
+            GoodsReceiptNoteLine newGoodsReceiptNoteLine = GoodsReceiptNoteLine.builder()
+                    .goodsReceiptNote(savedGoodsReceiptNote)
+                    .item(purchaseOrderLine.getItem())
+                    .qty(0).build();
+            GoodsReceiptNoteLine saveGoodsReceiptNoteLine = goodsReceiptNoteLineRepository.save(newGoodsReceiptNoteLine);
+            goodsReceiptNote.getGoodsReceiptNoteLines().add(saveGoodsReceiptNoteLine);
+        }
         return goodsReceiptNoteRepository.save(savedGoodsReceiptNote);
     }
 
     public GoodsReceiptNoteDto addGoodReceiptNoteLines(GoodsReceiptNote goodsReceiptNote) {
         GoodsReceiptNoteDto goodsReceiptNoteDto = GoodsReceiptNoteDto.builder()
-            .date(LocalDate.now())
-            .purchaseOrderId(goodsReceiptNote.getPurchaseOrder().getId()).build();
+                .date(LocalDate.now())
+                .purchaseOrderId(goodsReceiptNote.getPurchaseOrder().getId()).build();
         for (int i=0; i<goodsReceiptNote.getGoodsReceiptNoteLines().size(); i++) {
             goodsReceiptNoteDto.getGoodsReceiptNoteLines().add(new GoodsReceiptNoteLineDto());
         }
         return goodsReceiptNoteDto;
     }
-    
+
 }

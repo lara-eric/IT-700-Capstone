@@ -26,8 +26,8 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
-     <!-- ALERTS TO PROVIDE USER FEEDBACK ON NOT FULFILLED PO -->
-     <div th:if="${param.notFulfilled}">
+    <!-- ALERTS TO PROVIDE USER FEEDBACK ON NOT FULFILLED PO -->
+    <div th:if="${param.notFulfilled}">
         <div class="alert alert-info alert-dismissible fade show mt-3" role="alert">
             Goods Receipt Note Was Not Fulfilled
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -38,20 +38,22 @@
     <!-- Customer list as table -->
     <table class="table">
         <thead>
-            <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Goods Receipt Note</th>
-                <th scope="col">Qty Received</th>
-                <th scope="col">Details</th>
-            </tr>
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Goods Receipt Note</th>
+            <th scope="col">Purchase Order</th>
+            <th scope="col">Qty Received</th>
+            <th scope="col">Details</th>
+        </tr>
         </thead>
         <tbody>
-            <tr th:each="goodsReceiptNote : ${goodsReceiptNotes}">
-                <th scope="row" th:text="|${#temporals.monthNameShort(goodsReceiptNote.date)} ${#temporals.format(goodsReceiptNote.date, ' dd, yyyy')}|">1</th>
-                <td th:text="${goodsReceiptNote.id}">Mark</td>
-                <td th:text="${goodsReceiptNote.getTotalQty()}">Otto</td>
-                <td><a th:href="@{/goods-receipt-notes/{goodReceiptNoteId}(goodReceiptNoteId=${goodsReceiptNote.id})}" class="btn btn-outline-secondary">Details</a></td>
-            </tr>
+        <tr th:each="goodsReceiptNote : ${goodsReceiptNotes}">
+            <th scope="row" th:text="|${#temporals.monthNameShort(goodsReceiptNote.date)} ${#temporals.format(goodsReceiptNote.date, ' dd, yyyy')}|">1</th>
+            <td th:text="${goodsReceiptNote.id}">Mark</td>
+            <td th:text="${goodsReceiptNote.purchaseOrder.id}">Mark</td>
+            <td th:text="${goodsReceiptNote.getTotalQty()}">Otto</td>
+            <td><a th:href="@{/goods-receipt-notes/{goodReceiptNoteId}(goodReceiptNoteId=${goodsReceiptNote.id})}" class="btn btn-outline-secondary">Details</a></td>
+        </tr>
         </tbody>
     </table>
 </div>
